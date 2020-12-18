@@ -12,16 +12,17 @@ router.get('/', async (req,res)=> {
 router.post('/', async (req,res) => {
     let db=MongoUtil.getDB();
     let {
-        title,location,tags,block,report_name,report_email,date
+        title,location,tags,block,reporter_name,reporter_email,date
     } = req.body;
     tags = tags || [];
     tags = Array.isArray(tags) ? tags : [tags];
+    date = new Date(date);
      let results = await db.collection('faults').insertOne({
-         title,location,tags,block,report_name,report_email,date
+         title,location,tags,block,reporter_name,reporter_email,date
      })
      res.send({
          'message' : 'New fault report has been created succesfully',
-         'inserterdid' : results.insertedid
+         'inserterdid' : results.insertedId
      })
 })
 
